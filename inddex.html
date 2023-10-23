@@ -10,6 +10,7 @@
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
+        
     </head>
     <body>
         <!-- Responsive navbar-->
@@ -84,60 +85,6 @@
             </script>
             </center>>
         </div>
-         <h1>부산시 버스 정류소 정보</h1>
-    <input id="search" type="text" />
-    <button id="submit">검색</button>
-    <div id="results">
-        <!-- 검색 결과를 표시할 div를 추가합니다. -->
-    </div>
-    <script>
-        document.getElementById("submit").addEventListener("click", function() {
-            var searchKeyword = document.getElementById("search").value;
-            var url = 'http://apis.data.go.kr/6260000/BusanBIMS/busStopList';
-            var queryParams = '?' + encodeURIComponent('serviceKey') + '=' + '7j79bmdEtgKMynPUFoZCWGIfaSIT1jHnRi6sWgB1zQdM0UE9FPJVSzQLTTzO9BfgAUqV1uvDQNXne%2BR%2FbjEOsQ%3D%3D';
-            queryParams += '&' + encodeURIComponent('pageNo') + '=' + '1';
-            queryParams += '&' + encodeURIComponent('numOfRows') + '=' + '10';
-            queryParams += '&' + encodeURIComponent('bstopnm') + '=' + encodeURIComponent(searchKeyword);
-
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', url + queryParams);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        // XML 데이터를 파싱하여 JSON 데이터로 변환
-                        var parser = new DOMParser();
-                        var xmlDoc = parser.parseFromString(xhr.responseText, 'text/xml');
-                        var items = xmlDoc.getElementsByTagName('item');
-
-                        if (items.length > 0) {
-                            var resultTable = "<table>";
-                            resultTable += "<tr><th>정류소명</th><th>정류소번호</th></tr>";
-                            for (var i = 0; i < items.length; i++) {
-                                var item = items[i];
-                                var bstopnm = item.getElementsByTagName('bstopnm')[0];
-                                var arsno = item.getElementsByTagName('arsno')[0];
-                                if (bstopnm && arsno) {
-                                    resultTable += "<tr>";
-                                    resultTable += "<td>" + bstopnm.textContent + "</td>";
-                                    resultTable += "<td>" + arsno.textContent + "</td>";
-                                    resultTable += "</tr>";
-                                }
-                            }
-                            resultTable += "</table>";
-
-                            // 결과를 results div에 추가합니다.
-                            document.getElementById("results").innerHTML = resultTable;
-                        } else {
-                            document.getElementById("results").innerHTML = "검색 결과가 없습니다.";
-                        }
-                    } else {
-                        document.getElementById("results").innerHTML = "요청에 실패했습니다. 상태 코드: " + xhr.status;
-                    }
-                }
-            };
-            xhr.send();
-        });
-    </script>
         <!-- Footer-->
         <footer class="py-5 bg-dark">
             <div class="container px-4 px-lg-5"><p class="m-0 text-center text-white" href="https://namu.wiki/w/beatoraja">Copyright &copy; <a href="index.html">🤔</a> humteresting 2023</p></div>
